@@ -1,35 +1,66 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>Link shorter</title>
+    <title>Link Shorter</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Link shorter">
-    <meta name="keywords" content="Link shorter, url shorter, сокращение ссылок">
+    <meta name="description" content="Бесплатный сервис для сокращения ссылок">
+    <meta name="keywords" content="сокращение ссылок, короткие ссылки, link shorter">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <section>
-        <span class="label-text">LINK SHORTENER</span>
-    </section>
-    <form action="" method="post">
-        <section id="input">
-            <label for="long_link">Long link</label>
-            <input type="text" name="long_link" id="long_link" required>
-            <input type="submit" name="shorten" value="Жмать сюда!">
+    <div class="container">
+        <section class="header">
+            <span class="label-text">
+                <i class="fas fa-link"></i>
+                LINK SHORTENER
+            </span>
+            <p class="subtitle">Превратите длинные ссылки в короткие и удобные!</p>
         </section>
-    </form>
-    {% if output %}
-    <section id="output">
-        <label for="output">Short link</label>
-        <div class="output">
-            <p>{{ output }}</p>
-        </div>
-    </section>
-    {% endif %}
-    <footer class="production">
-        <span>JaneKKTTme 2025</span>
-    </footer>
 
+        <form action="" method="post">
+            <section id="input">
+                <div class="input-group">
+                    <label for="long_link">
+                        <i class="fas fa-paperclip"></i>
+                        Длинная ссылка
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="text" name="long_link" id="long_link" required 
+                               placeholder="Вставьте вашу ссылку здесь...">
+                        <div class="input-focus-line"></div>
+                    </div>
+                </div>
+                <button type="submit" name="shorten" class="submit-btn">
+                    <i class="fas fa-magic"></i>
+                    Жмать сюда!
+                    <div class="btn-shine"></div>
+                </button>
+            </section>
+        </form>
+
+        {% if output %}
+        <section id="output">
+            <div class="output-group">
+                <label for="output">
+                    <i class="fas fa-rocket"></i>
+                    Короткая ссылка
+                </label>
+                <div class="output-wrapper">
+                    <p id="short-link">{{ output }}</p>
+                    <button class="copy-btn" onclick="copyToClipboard()" title="Скопировать">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+                <div class="copy-message" id="copy-message">Ссылка скопирована!</div>
+            </div>
+        </section>
+        {% endif %}
+
+        <footer class="production">
+            <span>JaneKKTTme 2025</span>
+        </footer>
+    </div>
 </body>
 </html>

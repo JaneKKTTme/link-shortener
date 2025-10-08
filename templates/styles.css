@@ -1,81 +1,379 @@
 * {
-	box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --accent-color: #F9A826;
+    --accent-dark: #E89510;
+    --text-light: #ffffff;
+    --text-dark: #333333;
+    --text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    --shadow: 0 8px 25px rgba(0,0,0,0.1);
+    --shadow-hover: 0 12px 35px rgba(0,0,0,0.15);
 }
 
 html {
-	background-color: #f1e7be;
-	border: 0;
-	justify-content: center;
+	height: 100%;
+    font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+    background: var(--primary-gradient);
+    color: var(--text-light);
 }
 
 body {
-	margin: 0;
-	padding: 0;
-	height: 100%;
-	width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
 }
 
-section {
-	display: flex;
- 	flex-direction: row;
-	justify-content: center;
-	align-items: center;
+.container {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.6s ease;
 }
 
-#label {
-	width: 100%;
-	height: 15vh;
-	background-color: #df5e4a;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
+.header {
+    margin-bottom: 3rem;
+    animation: fadeInDown 0.8s ease;
 }
 
-.label_text {
-	color: #f1e7be;
-	font-weight: 600;
-	font-size: 3vh;
-	vertical-align: center;
+.label-text {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    text-shadow: var(--text-shadow);
+}
+
+.label-text i {
+    color: var(--accent-color);
+    font-size: 2.8rem;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    font-weight: 300;
+    animation: fadeIn 1s ease 0.3s both;
 }
 
 #input {
-	height: 30vh;
-	justify-content: center;
- 	text-align: center;
+    flex-direction: column;
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 0.8s ease 0.2s both;
 }
 
-.input_text {
-	vertical-align: center;
-	color: #352d2c;
+.input-group {
+    width: 100%;
+    margin-bottom: 2rem;
 }
 
-.long_link {
-	border: #73ccb0 solid 3px;
+label {
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.3rem;
+}
+
+label i {
+    color: var(--accent-color);
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 20px 0;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 20px 25px;
+    border: none;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.95);
+    font-size: 1.1rem;
+    font-family: 'Nunito', sans-serif;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    color: var(--text-dark);
+}
+
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+input[type="text"]::placeholder {
+    color: #999;
+}
+
+.input-focus-line {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: var(--accent-color);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+input[type="text"]:focus + .input-focus-line {
+    width: 80%;
+}
+
+.submit-btn {
+    background: var(--accent-color);
+    color: var(--text-light);
+    border: none;
+    padding: 20px 50px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1.3rem;
+    font-weight: bold;
+    font-family: 'Nunito', sans-serif;
+    box-shadow: 0 6px 0 var(--accent-dark);
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 var(--accent-dark);
+    background: #ffb347;
+}
+
+.submit-btn:active {
+    transform: translateY(6px);
+    box-shadow: 0 0 0 var(--accent-dark);
+}
+
+.submit-btn i {
+    font-size: 1.2rem;
+}
+
+.btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.8s ease;
+}
+
+.submit-btn:hover .btn-shine {
+    left: 100%;
 }
 
 #output {
-	height: 30vh;
-	justify-content: center;
- 	text-align: center;
+    flex-direction: column;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease 0.4s both;
 }
 
-.output_text {
-	vertical-align: center;
-	color: #352d2c;
+.output-group {
+    width: 100%;
 }
 
-.short_link {
-	background-color: #73ccb0;
-	border: #4B7668 solid 3px;
-	color: #4B7668;
+.output-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50px;
+    padding: 5px;
+    margin: 20px 0;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
 }
 
-footer {
-	bottom: 0;
-	justify-content: center;
- 	text-align: center;
+.output-wrapper:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
 }
 
-footer a {
-	color: #352d2c;
+#short-link {
+    flex: 1;
+    padding: 15px 25px;
+    color: var(--text-dark);
+    font-weight: 600;
+    word-break: break-all;
+    text-align: left;
+    margin: 0;
+}
+
+.copy-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.copy-btn:hover {
+    background: var(--accent-dark);
+    transform: scale(1.1);
+}
+
+.copy-message {
+    display: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-dark);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    margin-top: 10px;
+    animation: fadeIn 0.3s ease;
+}
+
+footer.production {
+    margin-top: 3rem;
+    padding: 20px;
+    font-weight: 600;
+    opacity: 0.8;
+    animation: fadeIn 1s ease 0.6s both;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .label-text {
+        font-size: 2.2rem;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .label-text i {
+        font-size: 2.2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+    
+    input[type="text"] {
+        padding: 18px 20px;
+        font-size: 1rem;
+    }
+    
+    .submit-btn {
+        padding: 18px 40px;
+        font-size: 1.2rem;
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    #short-link {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .output-wrapper {
+        flex-direction: column;
+        border-radius: 25px;
+        padding: 0;
+        overflow: hidden;
+    }
+    
+    .copy-btn {
+        width: 100%;
+        height: 45px;
+        border-radius: 0 0 25px 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .label-text {
+        font-size: 1.8rem;
+    }
+    
+    .label-text i {
+        font-size: 1.8rem;
+    }
+    
+    input[type="text"] {
+        padding: 15px 18px;
+    }
+    
+    .submit-btn {
+        padding: 16px 30px;
+        font-size: 1.1rem;
+    }
+    
+    label {
+        font-size: 1.1rem;
+    }
+}
+
+.submit-btn.loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.submit-btn.loading i {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }

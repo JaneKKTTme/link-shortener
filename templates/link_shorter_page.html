@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Бесплатный сервис для сокращения ссылок">
     <meta name="keywords" content="сокращение ссылок, короткие ссылки, link shorter">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="main.js" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='main.js') }}" type="text/javascript"></script>
 </head>
 <body>
     <div class="container">

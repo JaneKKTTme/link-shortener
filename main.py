@@ -30,7 +30,6 @@ def is_valid_url(url):
 
 @app.route('/', methods=['GET', 'POST'])
 def link_shorter_page():
-    session = Session()
     output = None
     if not is_valid_url(url):
         return render_template('link_shorter_page.html', output=is_valid_url(url))

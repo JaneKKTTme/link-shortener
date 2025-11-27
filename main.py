@@ -24,7 +24,7 @@ def expand_link(shortened_url):
 def is_valid_url(url):
     try:
         result = urlparse(url=url)
-        return all([result.scheme, result.method])
+        return all([result.scheme, result.netloc])
     except:
         return False
 

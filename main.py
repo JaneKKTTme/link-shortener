@@ -28,12 +28,20 @@ def is_valid_url(url):
     except:
         return False
 
+@app.route('/', methods=['GET'])
+def get_link():
+    try:
+        url = request.form.get('url', '')
+        if not is_valid_url(url):
+            return render_template('link_shorter_page.html', output=is_valid_url(url))
+    except:
+            return render_template('link_shorter_page.html', output='ERROR')
+
+
 @app.route('/', methods=['GET', 'POST'])
 def link_shorter_page():
     output = None
-    url = request.form.get('url', '')
-    if not is_valid_url(url):
-        return render_template('link_shorter_page.html', output=is_valid_url(url))
+    url = get_link()
 
     if request.method == 'POST':
         try:
@@ -44,7 +52,8 @@ def link_shorter_page():
             )
             db.commit()
         except db.IntegrityError:
-            output = [s for l, s in db.query.with_entities(db.long_link, db.short_link) if l == url][0]
+            #output = [s for l, s in db.query.with_entities(db.long_link, db.short_link) if l == url][0]
+            output = '12345'
     return render_template('link_shorter_page.html', output=output)
 
 

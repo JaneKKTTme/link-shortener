@@ -36,7 +36,7 @@ def link_shorter_page():
     if not is_valid_url(url):
         return render_template('link_shorter_page.html', output=is_valid_url(url))
 
-    if request.method == 'POST':
+    '''if request.method == 'POST':
         try:
             output = shorten_link(url)
             db.execute(
@@ -46,7 +46,8 @@ def link_shorter_page():
             db.commit()
         except db.IntegrityError:
             output = [s for l, s in db.query.with_entities(db.long_link, db.short_link) if l == url][0]
-    return render_template('link_shorter_page.html', output=output)
+    '''
+    return render_template('link_shorter_page.html', output=shorten_link(url))
 
 
 if __name__ == '__main__':

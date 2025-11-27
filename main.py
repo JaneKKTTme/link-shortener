@@ -31,11 +31,11 @@ def is_valid_url(url):
 @app.route('/', methods=['GET', 'POST'])
 def link_shorter_page():
     output = None
+    url = request.form.get('url', '')
     if not is_valid_url(url):
         return render_template('link_shorter_page.html', output=is_valid_url(url))
 
     if request.method == 'POST':
-        url = request.form.get('url', '')
         try:
             output = shorten_link(url)
             db.execute(

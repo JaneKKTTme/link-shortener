@@ -4,6 +4,12 @@ from flask_sqlalchemy import SQLAlchemy
 from urllib.parse import urlparse
 
 app = Flask(__name__)
+database_url = os.environ.get('DATABASE_URL')
+if database_url and database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
 def shorten_link(url):
     shortener = Shortener()
@@ -20,14 +26,8 @@ def is_valid_url(url):
     except:
         return False
 
-def init_db():
-    db = get_db()
-    with app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode(utf8))
-
 @app.route('/', methods=['GET', 'POST'])
 def link_shorter_page():
-    db = init_db()
     session = Session()
     output = None
     if not is_valid_url(url):

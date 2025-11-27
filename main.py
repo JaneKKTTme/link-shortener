@@ -36,7 +36,10 @@ def is_valid_url(url):
 @app.route('/', methods=['GET', 'POST'])
 def link_shorter_page():
     if request.method == 'POST':
-        url = request.form.get('url', '')
+        url = request.form.get('url', '').strip()
+        if not url:
+            return render_template('link_shorter_page.html', 
+                                 error="Пожалуйста, введите URL")
         if not is_valid_url(url):
             return render_template('link_shorter_page.html',
                 error='ERROR')

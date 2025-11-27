@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from pyshorteners import Shortener
 from flask_sqlalchemy import SQLAlchemy
 from urllib.parse import urlparse
+import psycopg2
 import os
 
 app = Flask(__name__)

@@ -24,21 +24,31 @@ def expand_link(shortened_url):
 def is_valid_url(url):
     try:
         result = urlparse(url=url)
-        return all([result.scheme, result.netloc])
-    except:
+        if not all([result.scheme, result.netloc]):
+            return False
+        if result.scheme not in ['https', 'http', 'ftp']:
+            return False
+        return True
+    except Exception:
         return False
 
 
 @app.route('/', methods=['GET', 'POST'])
 def link_shorter_page():
-    output = None
-    url = request.form.get('url', '')
-    if not is_valid_url(url):
-        return render_template('link_shorter_page.html', output=is_valid_url(url))
-
-    '''if request.method == 'POST':
+    if request.method == 'POST':
+        url = request.form.get('url', '')
+        if not is_valid_url(url):
+            return render_template('link_shorter_page.html',
+                error='ERROR')
         try:
             output = shorten_link(url)
+            return render_template('link_shorter_page.html',
+                output=output)
+        except Exception as e:
+            return render_template('link_shorter_page.html',
+                error=e)
+    '''
+        try:
             db.execute(
                 "INSERT INTO shortened_links (long_link, short_link) VALUES (?, ?)", 
                 (url, output)
@@ -47,7 +57,7 @@ def link_shorter_page():
         except db.IntegrityError:
             output = [s for l, s in db.query.with_entities(db.long_link, db.short_link) if l == url][0]
     '''
-    return render_template('link_shorter_page.html', output=shorten_link(url))
+    return render_template('link_shorter_page.html')
 
 
 if __name__ == '__main__':

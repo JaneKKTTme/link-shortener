@@ -59,6 +59,13 @@
         </section>
         {% endif %}
 
+        {% if error %}
+        <div class="error-message">
+            <i class="fas fa-exclamatiion-triangle"></i>
+            {{ error }}
+        </div>
+        {% endif %}
+
         <footer class="production">
             <span>Copyright © 2025 JaneKKTTme</span>
         </footer>

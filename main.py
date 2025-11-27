@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from pyshorteners import Shortener
 from flask_sqlalchemy import SQLAlchemy
 from urllib.parse import urlparse
+import os
 
 app = Flask(__name__)
 database_url = os.environ.get('DATABASE_URL')

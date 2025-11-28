@@ -257,9 +257,8 @@ input[type="text"]:focus + .input-focus-line {
 }
 
 .error-message {
-    background: var(--error);
-    opacity: 0.1;
-    border: 1px solid var(--error);
+    background: rgb(from var(--error) r g b / 10%)
+    border: 3px solid var(--error);
     color: var(--error);
     padding: 15px 20px;
     border-radius: 15px;

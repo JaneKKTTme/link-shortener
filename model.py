@@ -15,7 +15,7 @@ class ShortenedLink(db.Model):
         return f'<ShortenedLink {self.origin_link} -> {self.short_link}'
 
 
-def init_db():
+def init_db(app):
     try:
         with app.app_context():
             db.create_all()

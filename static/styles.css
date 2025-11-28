@@ -8,6 +8,7 @@
     --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --accent-color: #F9A826;
     --accent-dark: #E89510;
+    --error: #ff0033;
     --text-light: #ffffff;
     --text-dark: #333333;
     --text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
@@ -256,14 +257,16 @@ input[type="text"]:focus + .input-focus-line {
 }
 
 .error-message {
-    background: rgba(255, 87, 87, 0.1);
-    border: 1px solid #ff5757;
-    color: #ff6b6b;
+    background: var(--error);
+    opacity: 0.1;
+    border: 1px solid var(--error);
+    color: var(--error);
     padding: 15px 20px;
     border-radius: 15px;
     margin: 20px 0;
     display: flex;
     align-items: center;
+    text-align: center;
     gap: 10px;
     animation: shake 0.5s ease;
 }

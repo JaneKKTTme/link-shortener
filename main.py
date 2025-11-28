@@ -61,7 +61,7 @@ def link_shorter_page():
                 output=existing_link.short_link)
         except Exception as e:
             return render_template('link_shorter_page.html',
-                output="ERROR:" + e)
+                error=e)
 
         try:
             output = shorten_link(url)

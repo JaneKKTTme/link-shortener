@@ -14,7 +14,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
-db.reset_db(app)
+reset_db(app)
 init_db(app)
 
 

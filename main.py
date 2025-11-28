@@ -15,7 +15,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 db.init_app(app)
-
 init_db(app)
 
 
@@ -71,6 +70,7 @@ def link_shorter_page():
         try:
             output = shorten_link(url)
             shortened_link = ShortenedLink(
+                original_link=url,
                 short_link = output,
             )
             db.session.add(shortened_link)

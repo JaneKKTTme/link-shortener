@@ -6,16 +6,6 @@ from urllib.parse import urlparse
 import psycopg2
 import os
 
-app = Flask(__name__)
-database_url = os.environ.get('DATABASE_URL')
-if database_url and database_url.startswith("postgres://"):
-    database_url = database_url.replace("postgres://", "postgresql://", 1)
-app.config['SQLALCHEMY_DATABASE_URI'] = database_url
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app, mocel_class=Base)
-with app.app_context():
-    db.create_all()
-
 class Base(DeclarativeBase):
     pass
 
@@ -25,6 +15,16 @@ class ShortenedLink(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     long_link: Mapped[str] = mapped_column(unique=True)
     short_link: Mapped[str]
+
+app = Flask(__name__)
+database_url = os.environ.get('DATABASE_URL')
+if database_url and database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app, model_class=Base)
+with app.app_context():
+    db.create_all()
 
 
 def shorten_link(url):

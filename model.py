@@ -1,7 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 import psycopg2
-import os
 
 db = SQLAlchemy()
 
@@ -21,17 +20,16 @@ def init_db():
         with app.app_context():
             db.create_all()
     except Exception as e:
-        if 'postgresql' in database_url:
-            try:
-                with app.context():
-                    create_table_sql = """
-                    CREATE TABLE IF NOT EXISTS shortened_links (
-                        id SERIAL PRIMARY KEY,
-                        long_link TEXT NOT NULL,
-                        short_link TEXT NOT NULL
-                    );
-                    """
-                    db.session.execute(db.text(create_table_sql))
-                    db.session.commit()
-            except Exception as e:
-                print(e)
+        try:
+            with app.context():
+                create_table_sql = """
+                CREATE TABLE IF NOT EXISTS shortened_links (
+                    id SERIAL PRIMARY KEY,
+                    long_link TEXT NOT NULL,
+                    short_link TEXT NOT NULL
+                );
+                """
+                db.session.execute(db.text(create_table_sql))
+                db.session.commit()
+        except Exception as e:
+            print(e)

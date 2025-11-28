@@ -57,10 +57,10 @@ def link_shorter_page():
                 error='Некорректный URL :(')
 
         try:
-            existing_link = ShortenedLink.query.filter_by(origin_link=url).first()
+            existing_link = ShortenedLink.query.filter_by(original_link=url).first()
             if existing_link:
                 return render_template('link_shorter_page.html',
-                    origin_link=url,
+                    original_link=url,
                     output=existing_link.short_link)
 
         except Exception as e:
@@ -70,13 +70,13 @@ def link_shorter_page():
         try:
             output = shorten_link(url)
             shortened_link = ShortenedLink(
-                origin_link = url,
+                original_link = url,
                 short_link = output,
             )
             db.session.add(shortened_link)
             db.session.commit()
             return render_template('link_shorter_page.html',
-                origin_link=url,
+                original_link=url,
                 output=output)
         except Exception as e:
             db.session.rollback()

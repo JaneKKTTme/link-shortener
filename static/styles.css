@@ -68,7 +68,7 @@ body {
     animation: fadeIn 1s ease 0.3s both;
 }
 
-#input {
+#original_link {
     flex-direction: column;
     margin-bottom: 2.5rem;
     animation: fadeInUp 0.8s ease 0.2s both;

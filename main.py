@@ -81,8 +81,9 @@ def link_shorter_page():
 
         try:
             existing_link = ShortenedLink.query.filter_by(long_link=url).first()
-            return render_template('link_shorter_page.html',
-                output=existing_link.short_link)
+            if existing_link:
+                return render_template('link_shorter_page.html',
+                    output=existing_link.short_link)
         except Exception as e:
             return render_template('link_shorter_page.html',
                 error=e)

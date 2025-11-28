@@ -15,12 +15,19 @@ init_db()
 
 
 def shorten_link(url):
-    shortener = Shortener()
-    return shortener.clckru.short(url)
+    try:
+        shortener = Shortener()
+        return shortener.clckru.short(url)
+    except Exception as e:
+        raise Exception(f'Ошибка сокращения: {str(e)}')
 
-def expand_link(shortened_url):
-    shortener = Shortener()
-    return shortener.clckru.expand(shortened_url)
+def expand_link(url):
+    try:
+        shortener = Shortener()
+        return shortener.clckru.expand(url)
+    except Exception as e:
+        raise Exception(f'Ошибка декодирования: {str(e)}')
+
 
 def is_valid_url(url):
     try:

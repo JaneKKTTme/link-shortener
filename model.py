@@ -21,7 +21,7 @@ def init_db(app):
             db.create_all()
     except Exception as e:
         try:
-            with app.context():
+            with app.app_context():
                 create_table_sql = """
                 CREATE TABLE IF NOT EXISTS shortened_links (
                     id SERIAL PRIMARY KEY,
@@ -34,6 +34,7 @@ def init_db(app):
         except Exception as e:
             print(e)
 
+'''
 def clean_db():
     db.session.query(ShortenedLink).delete()
-
+'''

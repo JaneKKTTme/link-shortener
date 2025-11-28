@@ -60,17 +60,15 @@ def link_shorter_page():
             existing_link = ShortenedLink.query.filter_by(original_link=url).first()
             if existing_link:
                 return render_template('link_shorter_page.html',
-                    original_link=url,
                     output=existing_link.short_link)
 
         except Exception as e:
             return render_template('link_shorter_page.html',
-                error='Возникли технические шоколадки :(')
+                error='Возникли технические шоколадки: ' + str(e))
 
         try:
             output = shorten_link(url)
             shortened_link = ShortenedLink(
-                original_link = url,
                 short_link = output,
             )
             db.session.add(shortened_link)

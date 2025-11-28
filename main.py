@@ -13,7 +13,7 @@ if database_url and database_url.startswith("postgres://"):
 app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-init_db()
+
 
 def init_db():
     try:
@@ -34,6 +34,9 @@ def init_db():
                     db.session.commit()
             except Exception as e:
                 print(e)
+
+
+init_db()
 
 class ShortenedLink(db.Model):
     __tablename__ = 'shortened_links'

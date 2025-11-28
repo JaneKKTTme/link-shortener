@@ -192,6 +192,7 @@ input[type="text"]:focus + .input-focus-line {
 
 #output {
     flex-direction: column;
+    margin-top: 2rem;
     margin-bottom: 2rem;
     animation: fadeInUp 0.8s ease 0.4s both;
 }

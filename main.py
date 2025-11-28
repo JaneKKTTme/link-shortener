@@ -6,26 +6,23 @@ from urllib.parse import urlparse
 import psycopg2
 import os
 
-class Base(DeclarativeBase):
-    pass
-
-class ShortenedLink(Base):
-    __tablename__ = "shortened_links"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    long_link: Mapped[str] = mapped_column(unique=True)
-    short_link: Mapped[str]
-
 app = Flask(__name__)
 database_url = os.environ.get('DATABASE_URL')
 if database_url and database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
 app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app, model_class=Base)
+db = SQLAlchemy(app)
 with app.app_context():
     db.create_all()
 
+class ShortenedLink(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    long_link = db.Column(db.Text, nullable=False)
+    short_link = db.Column(db.Text, unique=True, nullable=False)
+
+    def __repr__(self):
+        return f'<ShortenedLink {self.long_link} -> {self.short_link}'
 
 def shorten_link(url):
     shortener = Shortener()
@@ -57,6 +54,12 @@ def link_shorter_page():
         if not is_valid_url(url):
             return render_template('link_shorter_page.html',
                 error='ERROR')
+
+        existing_link = ShortenedLink.query.filter_by(long_link=url).first()
+        if existing_link:
+            return render_template('link_shorter_page.html',
+                output=existing_link.short_link)
+
         try:
             output = shorten_link(url)
             shortened_link = ShortenedLink(
@@ -65,12 +68,13 @@ def link_shorter_page():
             )
             db.session.add(shortened_link)
             db.session.commit()
-            output = db.session.execute(db.select(ShortenedLink).filter_by(long_link=url)).scalar_one()
+            #output = ShortenedLink.query.filter_by(long_link=url).first()
             return render_template('link_shorter_page.html',
                 output=output)
         except Exception as e:
+            db.session.rollback()
             return render_template('link_shorter_page.html',
-                error='ERROR:'+e)
+                error='ERROR:'+ db.session.execute(db.select(ShortenedLink).filter_by(long_link=url)).scalar_one())
     '''
         try:
             db.execute(

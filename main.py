@@ -40,10 +40,10 @@ def link_shorter_page():
         url = request.form.get('url', '').strip()
         if not url:
             return render_template('link_shorter_page.html', 
-                                 error="Пожалуйста, введите URL")
+                                 error='Пожалуйста, введите URL!')
         if not is_valid_url(url):
             return render_template('link_shorter_page.html',
-                error='ERROR')
+                error='Некорректный URL :(')
 
         try:
             existing_link = ShortenedLink.query.filter_by(long_link=url).first()
@@ -52,7 +52,7 @@ def link_shorter_page():
                     output=existing_link.short_link)
         except Exception as e:
             return render_template('link_shorter_page.html',
-                error=e)
+                error='Возникли технические шоколадки :(')
 
         try:
             output = shorten_link(url)
@@ -62,13 +62,12 @@ def link_shorter_page():
             )
             db.session.add(shortened_link)
             db.session.commit()
-            #output = ShortenedLink.query.filter_by(long_link=url).first()
             return render_template('link_shorter_page.html',
                 output=output)
         except Exception as e:
             db.session.rollback()
             return render_template('link_shorter_page.html',
-                error='ERROR:'+ db.session.execute(db.select(ShortenedLink).filter_by(long_link=url)).scalar_one())
+                error='База данных вышла на перекур :(')
     
     return render_template('link_shorter_page.html')
 

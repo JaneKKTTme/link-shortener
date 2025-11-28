@@ -110,6 +110,8 @@ input[type="text"] {
     box-shadow: var(--shadow);
     transition: all 0.3s ease;
     color: var(--text-dark);
+    position: relative;
+    z-index: 1;
 }
 
 input[type="text"]:focus {
@@ -124,7 +126,7 @@ input[type="text"]::placeholder {
 
 .input-focus-line {
     position: absolute;
-    bottom: 0;
+    bottom: -5px;
     left: 50%;
     width: 0;
     height: 3px;
@@ -132,10 +134,11 @@ input[type="text"]::placeholder {
     border-radius: 3px;
     transition: all 0.3s ease;
     transform: translateX(-50%);
+    z-index: 2;
 }
 
 input[type="text"]:focus + .input-focus-line {
-    width: 80%;
+    width: 90%;
 }
 
 .submit-btn {
@@ -340,12 +343,20 @@ footer.production {
         font-size: 1rem;
         padding: 0 10px;
     }
+
+    .input-focus-line {
+        bottom: -3px;
+    }
     
     input[type="text"] {
         padding: 18px 20px;
         font-size: 1rem;
     }
     
+    input[type="text"]:focus + .input-focus-line {
+        width: 95%;
+    }
+
     .submit-btn {
         padding: 18px 40px;
         font-size: 1.2rem;

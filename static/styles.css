@@ -8,7 +8,7 @@
     --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --accent-color: #F9A826;
     --accent-dark: #E89510;
-    --error: #ff0033;
+    --error: #e933cf;
     --text-light: #ffffff;
     --text-dark: #333333;
     --text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
@@ -259,7 +259,7 @@ input[type="text"]:focus + .input-focus-line {
 .error-message {
     background: linear-gradient(var(--error), transparent);
     border: 3px solid var(--error);
-    color: var(--error);
+    color: var(--text-light);
     padding: 15px 20px;
     border-radius: 15px;
     margin: 20px 0;

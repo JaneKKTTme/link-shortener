@@ -8,11 +8,11 @@ class ShortenedLink(db.Model):
     __tablename__ = 'shortened_links'
 
     id = db.Column(db.Integer, primary_key=True)
-    long_link = db.Column(db.Text, nullable=False)
+    origin_link = db.Column(db.Text, nullable=False)
     short_link = db.Column(db.Text, unique=True, nullable=False)
 
     def __repr__(self):
-        return f'<ShortenedLink {self.long_link} -> {self.short_link}'
+        return f'<ShortenedLink {self.origin_link} -> {self.short_link}'
 
 
 def init_db():
@@ -25,7 +25,7 @@ def init_db():
                 create_table_sql = """
                 CREATE TABLE IF NOT EXISTS shortened_links (
                     id SERIAL PRIMARY KEY,
-                    long_link TEXT NOT NULL,
+                    origin_link TEXT NOT NULL,
                     short_link TEXT NOT NULL
                 );
                 """

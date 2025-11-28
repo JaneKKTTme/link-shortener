@@ -53,7 +53,7 @@ def link_shorter_page():
                 error='Некорректный URL :(')
 
         try:
-            existing_link = ShortenedLink.query.filter_by(long_link=url).first()
+            existing_link = ShortenedLink.query.filter_by(origin_link=url).first()
             if existing_link:
                 return render_template('link_shorter_page.html',
                     output=existing_link.short_link)
@@ -64,7 +64,7 @@ def link_shorter_page():
         try:
             output = shorten_link(url)
             shortened_link = ShortenedLink(
-                long_link = url,
+                origin_link = url,
                 short_link = output,
             )
             db.session.add(shortened_link)

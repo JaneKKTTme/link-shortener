@@ -48,7 +48,7 @@ def is_valid_url(url):
 @app.route('/', methods=['GET', 'POST'])
 def link_shorter_page():
     if request.method == 'POST':
-        url = request.form.get('url', '').strip()
+        url = request.form.get('original_link', '').strip()
         if not url:
             return render_template('link_shorter_page.html', 
                                  error='Пожалуйста, введите URL!')
@@ -60,6 +60,7 @@ def link_shorter_page():
             existing_link = ShortenedLink.query.filter_by(original_link=url).first()
             if existing_link:
                 return render_template('link_shorter_page.html',
+                    original_link=url,
                     output=existing_link.short_link)
 
         except Exception as e:

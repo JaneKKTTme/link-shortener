@@ -56,7 +56,9 @@ def link_shorter_page():
             existing_link = ShortenedLink.query.filter_by(origin_link=url).first()
             if existing_link:
                 return render_template('link_shorter_page.html',
+                    origin_link=url,
                     output=existing_link.short_link)
+
         except Exception as e:
             return render_template('link_shorter_page.html',
                 error='Возникли технические шоколадки :(')
@@ -70,6 +72,7 @@ def link_shorter_page():
             db.session.add(shortened_link)
             db.session.commit()
             return render_template('link_shorter_page.html',
+                origin_link=url,
                 output=output)
         except Exception as e:
             db.session.rollback()

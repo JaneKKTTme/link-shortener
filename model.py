@@ -1,5 +1,4 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 import psycopg2
 
 db = SQLAlchemy()
@@ -34,7 +33,8 @@ def init_db(app):
         except Exception as e:
             print(e)
 
-'''
-def clean_db():
-    db.session.query(ShortenedLink).delete()
-'''
+
+def reset_db(app):
+    with app.app_context():
+        db.drop_all()
+        db.create_all()

@@ -13,6 +13,7 @@ A Flask-based web application that turns long, cumbersome URLs into short, manag
 - [Installation](#installation)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
+- [Recent and Future Modifications](#recent-and-future-modifications)
 - [Possible Improvements](#possible-improvements)
 - [Feature Ideas](#feature-ideas)
 - [License](#license)
@@ -82,6 +83,11 @@ project/
 │   └── main.js          # Client-side magic
 └── README.md            # This file (you're reading it!)
 ```
+
+## <a id="recent-and-future-modifications"></a> 🚀 Recent and Future Modifications
+- [x] Database
+- [] Hash algorithm
+- [] Statistics page
 
 ## <a id="possible-improvements"></a> 🛠️ Possible Improvements
 - **Link Analytics:** Track how many times your shortened links are clicked

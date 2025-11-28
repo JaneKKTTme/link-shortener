@@ -5,13 +5,17 @@ from model import *
 import os
 
 app = Flask(__name__)
+
 database_url = os.environ.get('DATABASE_URL')
 if database_url and database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db.init_app(app)
-init_db(app)
+with app.app_context():
+    init_db(app)
 
 
 def shorten_link(url):
@@ -83,4 +87,4 @@ def link_shorter_page():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)    
+    app.run(debug=os.environ.get('DEBUG', 'False').lower() == 'true')    

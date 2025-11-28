@@ -257,7 +257,7 @@ input[type="text"]:focus + .input-focus-line {
 }
 
 .error-message {
-    background: rgb(from var(--error) r g b / 10%)
+    background: linear-gradient(var(--error), transparent);
     border: 3px solid var(--error);
     color: var(--error);
     padding: 15px 20px;
@@ -266,6 +266,7 @@ input[type="text"]:focus + .input-focus-line {
     display: flex;
     align-items: center;
     text-align: center;
+    justify-content: center;
     gap: 10px;
     animation: shake 0.5s ease;
 }

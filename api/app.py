@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 from api import *
 from api.models import db, init_db, reset_db, ShortenedLink
 import os
+import hashlib
 
 app = Flask(__name__)
 
@@ -64,17 +65,19 @@ def link_shorter_page():
             if existing_link:
                 return render_template('link_shorter_page.html',
                     original_link=url,
-                    output=existing_link.short_link)
+                    output='https://link-shorter-si7x.onrender.com/' + existing_link.short_link)
 
         except Exception as e:
             return render_template('link_shorter_page.html',
                 error='Возникли технические шоколадки: ' + str(e))
 
         try:
-            output = shorten_link(url)
+            #output = shorten_link(url)
+            hashed_link = hashlib.md5(url.encode()).hexdigest()
+            output = 'https://link-shorter-si7x.onrender.com/' + hashed_link
             shortened_link = ShortenedLink(
                 original_link=url,
-                short_link = output,
+                short_link = hashed_link,
             )
             db.session.add(shortened_link)
             db.session.commit()

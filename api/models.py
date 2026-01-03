@@ -11,7 +11,7 @@ class ShortenedLink(db.Model):
     short_link = db.Column(db.Text, unique=True, nullable=False)
 
     def __repr__(self):
-        return f'<ShortenedLink {self.original_link} -> {self.short_link}'
+        return f'<ShortenedLink {self.original_link} -> {self.short_link}>'
 
 
 def init_db(app):
@@ -25,7 +25,7 @@ def init_db(app):
                 CREATE TABLE IF NOT EXISTS shortened_links (
                     id SERIAL PRIMARY KEY,
                     original_link TEXT NOT NULL,
-                    short_link TEXT NOT NULL
+                    short_link TEXT NOT NULL UNIQUE
                 );
                 """
                 db.session.execute(db.text(create_table_sql))

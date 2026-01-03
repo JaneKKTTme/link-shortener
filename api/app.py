@@ -92,19 +92,15 @@ def get_long_link(short_link):
     try:
         long_link = ShortenedLink.query.filter_by(short_link=short_link).first()
         if long_link:
-            return long_link
+            return long_link.original_link
     except Exception as e:
         raise e
 
-@app.route('/test')
-def redirect_to_original_link():
-    '''try:
+@app.route('/<short_link>')
+def redirect_to_original_link(short_link):
+    try:
         long_link = get_long_link(short_link)
         return redirect(long_link)
-    except Exception as e:
-        return Response(e.args)'''
-    try:
-        return redirect('https://github.com/JaneKKTTme/link-shortener/tree/feature/redirection/api')
     except Exception as e:
         return Response(e.args)
 

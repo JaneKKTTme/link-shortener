@@ -95,11 +95,15 @@ def get_long_link(short_link):
     except Exception as e:
         raise e
 
-@app.route('/<short_link>', methods=['GET'])
-def redirect(short_link):
-    try:
+@app.route('/test')
+def redirect():
+    '''try:
         long_link = get_long_link(short_link)
         return redirect(long_link)
+    except Exception as e:
+        return Response(e.args)'''
+    try:
+        return redirect('https://github.com/JaneKKTTme/link-shortener/tree/feature/redirection/api')
     except Exception as e:
         return Response(e.args)
 

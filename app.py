@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from pyshorteners import Shortener
 from urllib.parse import urlparse
-from model import *
+from models import *
 import os
 from flask_restful import Api
 
@@ -26,6 +26,8 @@ def shorten_link(url):
         return shortener.clckru.short(url)
     except Exception as e:
         raise Exception(f'Ошибка сокращения: {str(e)}')
+
+
 
 def expand_link(url):
     try:

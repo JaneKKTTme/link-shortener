@@ -96,7 +96,7 @@ def get_long_link(short_link):
         raise e
 
 @app.route('/test')
-def redirect():
+def redirect_to_original_link():
     '''try:
         long_link = get_long_link(short_link)
         return redirect(long_link)

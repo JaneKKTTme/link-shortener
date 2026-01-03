@@ -1,12 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, Response
 from pyshorteners import Shortener
 from urllib.parse import urlparse
 from models import *
 import os
-from flask_restful import Api
 
 app = Flask(__name__)
-api = Api(app, '/api')
 
 database_url = os.environ.get('DATABASE_URL')
 if database_url and database_url.startswith("postgres://"):
@@ -89,9 +87,22 @@ def link_shorter_page():
     
     return render_template('link_shorter_page.html')
 
-@app.route('/api', methods=['GET'])
+def get_long_link(short_link):
+    try:
+        long_link = ShortenedLink.query.filter_by(short_link=short_link).first()
+        if long_link:
+            return long_link
+    except Exception as e:
+        raise e
+
+@app.route('/<short_link>', methods=['GET'])
 def redirect(short_link):
-    return redirect('https://habr.com/ru/articles/718800/')
+    try:
+        long_link = get_long_link(short_link)
+        return redirect(long_link)
+    except Exception as e:
+        return Response(e.args)
+
 
 if __name__ == '__main__':
     app.run(debug=os.environ.get('DEBUG', 'False').lower() == 'true')    

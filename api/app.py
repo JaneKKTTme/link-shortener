@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, Response
 from pyshorteners import Shortener
 from urllib.parse import urlparse
-from models import *
+from api import *
+from api.models import db, init_db, reset_db, ShortenedLink
 import os
 
 app = Flask(__name__)
@@ -40,7 +41,7 @@ def is_valid_url(url):
         result = urlparse(url=url)
         if not all([result.scheme, result.netloc]):
             return False
-        if result.scheme not in ['https', 'http', 'ftp']:
+        if result.scheme not in ['https', 'http']:
             return False
         return True
     except Exception:

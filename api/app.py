@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect, Response
 from urllib.parse import urlparse
-from api.models import db, init_db, reset_db, ShortenedLink
+from api.models import ShortenedLink
+from link-shoter import db, app
 import os
 import hashlib
 
-app = Flask(__name__)
 
 database_url = os.environ.get('DATABASE_URL')
 if database_url and database_url.startswith("postgres://"):
@@ -13,12 +13,9 @@ if database_url and database_url.startswith("postgres://"):
 app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db.init_app(app)
-init_db(app)
-
-
 def hash_link(url):
-    return hashlib.md5(url.encode()).hexdigest()[:8]
+    salt = ''.join(random.choices(string.ascii_letters + string.digits, k=4))
+    return hashlib.md5((url + salt).encode()).hexdigest()[:8]
 
 
 def is_valid_url(url):
@@ -35,12 +32,12 @@ def is_valid_url(url):
 
 def is_existed(url, field):
     try:
-        result = ShortenedLink.query.where(field, '==', url).first()
-        if result:
-            return True
-        else:
-            return False
-    except:
+        if field == 'original_link':
+            result = ShortenedLink.query.filter_by(original_link=url).first()
+        elif field == 'short_link':  
+            result = ShortenedLink.query.filter_by(short_link=url).first()
+        return result 
+    except Exception:
         return False
 
 
@@ -51,14 +48,17 @@ def link_shorter_page():
         if not url:
             return render_template('link_shorter_page.html', 
                                  error='Пожалуйста, введите URL!')
+        if len(str(url)) > 2000:
+            return render_template('link_shorter_page.html',
+                error="URL слишком длинный :(\nПоищи короче :)")
         if not is_valid_url(url):
             return render_template('link_shorter_page.html',
                 error='Некорректный URL :(')
 
         try:
             #existing_link = ShortenedLink.query.filter_by(original_link=url).first()
-            link_is_existed = is_existed(url, 'original_link')
-            if link_is_existed:
+            existing_link = is_existed(url, 'original_link')
+            if existing_link:
                 return render_template('link_shorter_page.html',
                     original_link=url,
                     output='https://link-shorter-si7x.onrender.com/' + existing_link.short_link)
@@ -69,6 +69,8 @@ def link_shorter_page():
 
         try:
             hashed_link = hash_link(url)
+            while is_existed(hashed_link, 'short_link'):
+                hashed_link = hash_link(url)
             output = 'https://link-shorter-si7x.onrender.com/' + hashed_link
             shortened_link = ShortenedLink(
                 original_link=url,
@@ -98,9 +100,12 @@ def get_long_link(short_link):
 def redirect_to_original_link(short_link):
     try:
         long_link = get_long_link(short_link)
-        return redirect(long_link)
+        if long_link:
+            return redirect(long_link)
+        else:
+            return render_template('404.html'), 404
     except Exception as e:
-        return Response(e.args)
+        return Response(str(e.args), status=500)
 
 
 if __name__ == '__main__':

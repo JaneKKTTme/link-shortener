@@ -1,6 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from link-shoter import db
 
 class ShortenedLink(db.Model):
     __tablename__ = 'shortened_links'
@@ -13,7 +12,7 @@ class ShortenedLink(db.Model):
         return f'<ShortenedLink {self.original_link} -> {self.short_link}>'
 
 
-def init_db(app):
+'''def init_db(app):
     try:
         with app.app_context():
             db.create_all()
@@ -36,4 +35,4 @@ def init_db(app):
 def reset_db(app):
     with app.app_context():
         db.drop_all()
-        db.create_all()
+        db.create_all()'''

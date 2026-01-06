@@ -20,21 +20,8 @@ db.init_app(app)
 init_db(app)
 
 
-def shorten_link(url):
-    try:
-        shortener = Shortener()
-        return shortener.clckru.short(url)
-    except Exception as e:
-        raise Exception(f'Ошибка сокращения: {str(e)}')
-
-
-
-def expand_link(url):
-    try:
-        shortener = Shortener()
-        return shortener.clckru.expand(url)
-    except Exception as e:
-        raise Exception(f'Ошибка декодирования: {str(e)}')
+def hask_link(url):
+    return hashlib.md5(url.encode()).hexdigest()
 
 
 def is_valid_url(url):
@@ -72,8 +59,7 @@ def link_shorter_page():
                 error='Возникли технические шоколадки: ' + str(e))
 
         try:
-            #output = shorten_link(url)
-            hashed_link = hashlib.md5(url.encode()).hexdigest()
+            hashed_link = hash_link(url)
             output = 'https://link-shorter-si7x.onrender.com/' + hashed_link
             shortened_link = ShortenedLink(
                 original_link=url,

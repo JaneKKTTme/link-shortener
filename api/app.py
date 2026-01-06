@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, redirect, Response
-from pyshorteners import Shortener
 from urllib.parse import urlparse
-from api import *
 from api.models import db, init_db, reset_db, ShortenedLink
 import os
 import hashlib
@@ -15,13 +13,11 @@ if database_url and database_url.startswith("postgres://"):
 app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-
-#reset_db(app)
 db.init_app(app)
 init_db(app)
 
 
-def hask_link(url):
+def hash_link(url):
     return hashlib.md5(url.encode()).hexdigest()[:8]
 
 

@@ -21,7 +21,7 @@ init_db(app)
 
 
 def hask_link(url):
-    return hashlib.md5(url.encode()).hexdigest()
+    return hashlib.md5(url.encode()).hexdigest()[:8]
 
 
 def is_valid_url(url):

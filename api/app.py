@@ -16,6 +16,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
+#reset_db(app)
 db.init_app(app)
 init_db(app)
 
@@ -36,6 +37,17 @@ def is_valid_url(url):
         return False
 
 
+def is_existed(url, field):
+    try:
+        result = ShortenedLink.query.where(field, '==', url).first()
+        if result:
+            return True
+        else:
+            return False
+    except:
+        return False
+
+
 @app.route('/', methods=['GET', 'POST'])
 def link_shorter_page():
     if request.method == 'POST':
@@ -48,8 +60,9 @@ def link_shorter_page():
                 error='Некорректный URL :(')
 
         try:
-            existing_link = ShortenedLink.query.filter_by(original_link=url).first()
-            if existing_link:
+            #existing_link = ShortenedLink.query.filter_by(original_link=url).first()
+            link_is_existed = is_existed(url, 'original_link')
+            if link_is_existed:
                 return render_template('link_shorter_page.html',
                     original_link=url,
                     output='https://link-shorter-si7x.onrender.com/' + existing_link.short_link)

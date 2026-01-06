@@ -1,17 +1,12 @@
 from flask import Flask, render_template, request, redirect, Response
 from urllib.parse import urlparse
-from api.models import ShortenedLink
-from link-shoter import db, app
+from app.models import ShortenedLink
+from . import db
 import os
 import hashlib
+import random
+import string
 
-
-database_url = os.environ.get('DATABASE_URL')
-if database_url and database_url.startswith("postgres://"):
-    database_url = database_url.replace("postgres://", "postgresql://", 1)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = database_url
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 def hash_link(url):
     salt = ''.join(random.choices(string.ascii_letters + string.digits, k=4))
@@ -41,7 +36,6 @@ def is_existed(url, field):
         return False
 
 
-@app.route('/', methods=['GET', 'POST'])
 def link_shorter_page():
     if request.method == 'POST':
         url = request.form.get('original_link', '').strip()
@@ -96,7 +90,6 @@ def get_long_link(short_link):
     except Exception as e:
         raise e
 
-@app.route('/<short_link>')
 def redirect_to_original_link(short_link):
     try:
         long_link = get_long_link(short_link)
@@ -107,6 +100,3 @@ def redirect_to_original_link(short_link):
     except Exception as e:
         return Response(str(e.args), status=500)
 
-
-if __name__ == '__main__':
-    app.run(debug=os.environ.get('DEBUG', 'False').lower() == 'true')    

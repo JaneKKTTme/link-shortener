@@ -7,6 +7,9 @@ import random
 import string
 
 
+MAX_NUMBER_OF_ATTEMPTS = 30
+
+
 bp = Blueprint("main", __name__)
 
 
@@ -46,7 +49,7 @@ def link_shorter_page():
                                  error='Пожалуйста, введите URL!')
         if len(str(url)) > 2000:
             return render_template('link_shorter_page.html',
-                error="URL слишком длинный :(\nПоищи короче :)")
+                error="URL слишком длинный! Поищи короче :)")
         if not is_valid_link(url):
             return render_template('link_shorter_page.html',
                 error='Некорректный URL :(')
@@ -63,8 +66,10 @@ def link_shorter_page():
 
         try:
             hashed_link = hash_link(url)
-            while is_existed(hashed_link, 'short_link'):
+            number_of_attempts = 0
+            while check_link_existence(hashed_link, 'short_link') and number_of_attempts < MAX_NUMBER_OF_ATTEMPTS:
                 hashed_link = hash_link(url)
+                number_of_attempts += 1
             output = 'https://link-shorter-si7x.onrender.com/' + hashed_link
             shortened_link = ShortenedLink(
                 original_link=url,
@@ -97,4 +102,3 @@ def redirect_to_original_link(short_link):
             return render_template('404.html'), 404
     except Exception as e:
         return Response(str(e.args), status=500)
-

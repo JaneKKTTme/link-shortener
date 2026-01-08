@@ -92,12 +92,17 @@ def get_long_link(short_link):
             return long_link.original_link
     except Exception as e:
         raise e
+def increase_number_of_redirections(short_link):
+    shortened_link = check_link_existence(short_link, 'short_link')
+    shortened_link.number_of_redirections = shortened_link.number_of_redirections + 1
+
 
 def redirect_to_original_link(short_link):
     try:
         long_link = get_long_link(short_link)
         if long_link:
             return redirect(long_link)
+            increase_number_of_redirections(short_link)
         else:
             return render_template('404.html'), 404
     except Exception as e:

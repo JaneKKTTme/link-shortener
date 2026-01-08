@@ -22,6 +22,9 @@ def create_app():
 	app.add_url_rule('/', view_func=link_shorter_page, methods=['GET', 'POST'])
 	app.add_url_rule('/<short_link>', view_func=redirect_to_original_link)
 
+	from .app import bp
+	app.register_blueprint(bp)
+
 	with app.app_context():
 		db.create_all()
 

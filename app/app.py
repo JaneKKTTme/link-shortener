@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, Response
+from flask import Blueprint, render_template, request, redirect, Response
 from urllib.parse import urlparse
 from app.models import ShortenedLink
 from . import db
@@ -6,6 +6,9 @@ import os
 import hashlib
 import random
 import string
+
+
+bp = Blueprint("main", __name__)
 
 
 def hash_link(url):

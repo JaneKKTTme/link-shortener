@@ -4,4 +4,5 @@ import os
 app = create_app()
 
 if __name__ == '__main__':
-    app.run(debug=os.environ.get('DEBUG', 'False').lower() == 'true')    
+    debug = os.environ.get('DEBUG', 'False').lower() == 'true'
+    app.run(debug=debug)    

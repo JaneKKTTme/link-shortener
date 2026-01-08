@@ -18,5 +18,5 @@ class ShortenedLink(db.Model):
             'id': self.id,
             'original_link': self.original_link,
             'short_link': self.short_link,
-            'number_of_redirections':; self.number_of_redirections
+            'number_of_redirections': self.number_of_redirections
         }

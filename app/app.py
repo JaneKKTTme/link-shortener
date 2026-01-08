@@ -5,7 +5,7 @@ from . import db
 import hashlib
 import random
 import string
-from typing import Tuple, Optional, Union, Literal, Callable, Any, Dict
+from typing import Tuple, Optional, Union, Literal
 
 
 MAX_NUMBER_OF_ATTEMPTS: int = 30

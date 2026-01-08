@@ -19,16 +19,19 @@ def hash_link(url: str) -> str:
     return hashlib.md5((url + salt).encode()).hexdigest()[:8]
 
 
-def is_valid_link(url: str) -> bool:
+def is_valid_link(url: str) -> Union[str, bool]:
+    if not url:
+        return 'Пожалуйста, введите URL!'
+    if len(str(url)) > 2000:
+        return 'URL слишком длинный! Поищи короче :)'
+
     try:
         result: urlparse.ParseResult = urlparse(url=url)
-        if not all([result.scheme, result.netloc]):
-            return False
-        if result.scheme not in ['https', 'http']:
-            return False
+        if not all([result.scheme, result.netloc]) or result.scheme not in ['https', 'http']:
+            return 'Некорректный URL :('
         return True
     except (ValueError, AttributeError, TypeError):
-        return False
+        return 'Твой URL не прошел проверку :('
 
 
 def check_link_existence(url: str,
@@ -61,16 +64,10 @@ def increase_number_of_redirections(short_link: str) -> bool:
 def link_shorter_page() -> Union[str, Tuple[str, int]]:
     if request.method == 'POST':
         url: Optional[ShortenedLink] = request.form.get('original_link', '').strip()
-        
-        if not url:
-            return render_template('link_shorter_page.html', 
-                                 error='Пожалуйста, введите URL!')
-        if len(str(url)) > 2000:
+        check_result: Union[str, bool] = is_valid_link(url)
+        if check_result is not True:
             return render_template('link_shorter_page.html',
-                error="URL слишком длинный! Поищи короче :)")
-        if not is_valid_link(url):
-            return render_template('link_shorter_page.html',
-                error='Некорректный URL :(')
+                error=check_result)
 
         try:
             result:  Optional[ShortenedLink] = check_link_existence(url, 'original_link')

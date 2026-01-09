@@ -21,7 +21,7 @@ A Flask-based web application that turns long, cumbersome URLs into short, manag
 - [Pro Tip](#pro-tip)
 
 ## <a id="description"></a> 📋 Description
-This Flask application is designed to shorten your URLs faster than you can say "I need a shorter link!". Built with Python, styled with CSS magic, and powered by pyshorteners. 🤖
+This Flask application is designed to shorten your URLs faster than you can say "I need a shorter link!". Poweres by clean python and styled with CSS magic. 🤖
 
 ## <a id="features"></a> ✨ Features
 - **URL Shortening** - Turns novel-length URLs into Twitter-friendly links
@@ -33,7 +33,7 @@ This Flask application is designed to shorten your URLs faster than you can say 
 ### <a id="tech-stack"></a> 🛠️ Tech Stack
 - **Backend:** Python + Flask
 - **Frontend:** HTML5 + CSS3 + JavaScript
-- **URL Shortening:** pyshorteners (clck.ru)
+- **URL Shortening:** something self-made
 - **Icons:** Font Awesome
 - **Styling:** Custom CSS with gradients and animations
 
@@ -52,13 +52,10 @@ This Flask application is designed to shorten your URLs faster than you can say 
 ## <a id="installation"></a> 🚀 Installation
 
 1. **Clone or download the project files**
-2. **Install dependencies:**
-```bash
-pip install flask pyshorteners
-```
+2. **DO NOT install dependencies!**
 3. **Run the application:**
 ```bash
-python main.py
+python run.py
 ```
 4. **Open your browser and visit:**
 ```text
@@ -73,20 +70,27 @@ http://localhost:5000
 5. **Impress** your friends with your link-shortening prowess
 
 ## <a id="project-structure"></a> 📁 Project Structure
-```text
+```text            
 project/
-├── main.py              # Flask application
-├── templates/
-│   └── link_shorter_page.html  # Main HTML template
+├── app/
+│   ├── __init__.py      # Startup
+│   ├── app.py           # All application logic
+│   └── models.py        # Structure for PostreSQL
 ├── static/
 │   ├── styles.css       # Beautiful styling
 │   └── main.js          # Client-side magic
-└── README.md            # This file (you're reading it!)
+├── templates/
+│   └── link_shorter_page.html  # Main HTML template
+├── README.md            # This file (you're reading it!)
+├── README.ru.md
+├── requirements.txt
+└── run.py               # Flask application
 ```
 
 ## <a id="recent-and-future-modifications"></a> 🚀 Recent and Future Modifications
 - [x] Database
-- [] Hash algorithm
+- [x] Hash algorithm
+Because why rely on third-party services when you can be your own URL-shortening hero? 🦸‍♂️
 - [] Statistics page
 
 ## <a id="possible-improvements"></a> 🛠️ Possible Improvements
@@ -98,8 +102,6 @@ project/
 - **API Access:** For developers who want to shorten programmatically
 
 ### <a id="feature-ideas"></a> 🔮 Feature Ideas
-💫 ***API Abandonment:*** Because why rely on third-party services when you can be your own URL-shortening hero? 🦸‍♂️
-
 ☠️ ***Expiration Dates:*** Make links self-destruct after a certain time
 
 🛡️ ***Password Protection:*** For your super-secret links

@@ -349,44 +349,6 @@ footer.production {
     transform: translateX(-5px);
 }
         
-.suggestions {
-    margin-top: 3rem;
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    }
-        
-.suggestions-title {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    opacity: 0.8;
-}
-        
-.suggestions-list {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-}
-    
-.suggestions-list li a {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 25px;
-    transition: all 0.3s ease;
-    display: inline-block;
-}
-        
-.suggestions-list li a:hover {
-    background: var(--accent-color);
-    transform: translateY(-2px);
-}
-        
 .error-content {
     animation: fadeInUp 0.6s ease;
 }

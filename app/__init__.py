@@ -11,8 +11,15 @@ def create_app() -> Flask:
 				static_folder='../static')
 
 	database_url: Optional[str] = os.environ.get('DATABASE_URL')
+
+	if not database_url or app.config.get('TESTING'):
+		if app.config.get('TESTING'):
+			pass
+		else:
+			database_url = 'sqlite:///links.db'
+
 	if database_url and database_url.startswith("postgres://"):
-	    database_url = database_url.replace("postgres://", "postgresql://", 1)
+		database_url = database_url.replace("postgres://", "postgresql://", 1)
 
 	app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -27,6 +34,9 @@ def create_app() -> Flask:
 	app.register_blueprint(bp)
 
 	with app.app_context():
-		db.create_all()
+		if not app.config.get('TESTING'):
+			db.create_all()
+		else:
+			pass
 
 	return app

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Страница не найдена - Link Shorter</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Страница не найдена - сервис сокращения ссылок">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="{{ url_for('static', filename='main.js') }}" type="text/javascript"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="error-content">
+            <section class="header">
+                <span class="label-text">
+                    <i class="fas fa-link"></i>
+                    СОКРАЩАТЕЛЬ
+                </span>
+                <div class="error-404-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="error-code">404</div>
+                <p class="error-title">Страница не найдена</p>
+                <p class="error-description">
+                    <i class="fas fa-link"></i>
+                    Такой короткой ссылки не существует
+                </p>
+            </section>
+
+            <div class="error-message">
+                <i class="fas fa-search"></i>
+                Проверьте правильность введённой ссылки или создайте новую
+            </div>
+
+            <a href="/" class="home-link">
+                <i class="fas fa-arrow-left"></i>
+                Создать новую ссылку
+            </a>
+
+            <div class="suggestions">
+                <div class="suggestions-title">
+                    <i class="fas fa-lightbulb"></i>
+                    Возможно, вы искали:
+                </div>
+                <ul class="suggestions-list">
+                    <li><a href="/"><i class="fas fa-home"></i> Главная</a></li>
+                    <li><a href="#" onclick="window.location.reload()"><i class="fas fa-sync"></i> Обновить</a></li>
+                    <li><a href="https://github.com" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <footer class="production">
+            <i class="far fa-copyright"></i> 2025 JaneKKTTme
+        </footer>
+    </div>
+</body>
+</html>

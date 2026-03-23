@@ -91,7 +91,7 @@ project/
 - [x] Database
 - [x] Hash algorithm
 Because why rely on third-party services when you can be your own URL-shortening hero? 🦸‍♂️
-- [] Statistics page
+- [ ] Statistics page
 
 ## <a id="possible-improvements"></a> 🛠️ Possible Improvements
 - **Link Analytics:** Track how many times your shortened links are clicked

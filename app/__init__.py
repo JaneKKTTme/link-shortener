@@ -1,3 +1,5 @@
+"""Application factory and database initialization module."""
+
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 import os
@@ -6,6 +8,19 @@ from typing import Optional
 db = SQLAlchemy()
 
 def create_app() -> Flask:
+	"""Create and configure the Flask application instance.
+	
+	Sets up database connection, registers routes and blueprints,
+	and initializes the database schema.
+	
+	Returns:
+		Flask: Configured Flask application instance.
+		
+	Example:
+		>>> app = create_app()
+		>>> app.run()
+	"""
+
 	app = Flask(__name__,
 				template_folder='../templates',
 				static_folder='../static')

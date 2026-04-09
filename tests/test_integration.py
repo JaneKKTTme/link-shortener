@@ -1,10 +1,21 @@
+"""Integration tests for complete URL shortening workflows."""
+
 import pytest
 from app.models import ShortenedLink
 
 
 class TestIntegration:
+    """Test suite for end-to-end functionality and real-world scenarios."""
     
     def test_full_workflow(self, client, db):
+        """Test complete workflow: create, redirect, and track link.
+        
+        Verifies:
+        1. Short link creation
+        2. Redirection to original URL
+        3. Visit counter increment
+        4. Idempotent link creation (same URL returns existing link)
+        """
         original_url = 'https://integration-test.com/some/very/long/path'
         
         response = client.post('/', data={
@@ -30,6 +41,7 @@ class TestIntegration:
         db.session.refresh(link)
         assert link.number_of_redirections == 2
         
+        # Create same URL again - should return existing link
         response2 = client.post('/', data={
             'original_link': original_url
         }, follow_redirects=True)
@@ -39,6 +51,11 @@ class TestIntegration:
         assert len(links) == 1
     
     def test_concurrent_requests_handling(self, client, db):
+        """Test that concurrent requests for same URL don't create duplicate links.
+        
+        Simulates multiple simultaneous requests to ensure database
+        constraints prevent duplicate short links for the same URL.
+        """
         import threading
         
         results = []
@@ -64,6 +81,7 @@ class TestIntegration:
         assert len(links) == 1
     
     def test_multiple_links_creation(self, client, db):
+        """Test creating multiple different links successfully."""
         urls = [
             'https://test1.com',
             'https://test2.com',

@@ -1,10 +1,15 @@
+"""Unit tests for database models."""
+
 import pytest
 from app.models import ShortenedLink
 from app import db
 
+
 class TestShortenedLink:
+    """Test suite for ShortenedLink model."""
 
     def test_create_shortened_link(self, db):
+        """Test creating and saving a new ShortenedLink instance."""
         link = ShortenedLink(
             original_link='https://example.com/test',
             short_link='example1'
@@ -19,6 +24,11 @@ class TestShortenedLink:
         assert saved_link.number_of_redirections == 0
 
     def test_to_dict_method(self, db, sample_link):
+        """Test conversion of model instance to dictionary.
+        
+        Verifies that to_dict() returns a properly formatted dictionary
+        containing all model fields.
+        """
         link_dict = sample_link.to_dict()
         
         assert isinstance(link_dict, dict)
@@ -28,6 +38,7 @@ class TestShortenedLink:
         assert link_dict['number_of_redirections'] == sample_link.number_of_redirections
 
     def test_repr_method(self, db, sample_link):
+        """Test string representation of ShortenedLink instance."""
         repr_str = repr(sample_link)
 
         assert 'ShortenedLink' in repr_str
@@ -35,6 +46,11 @@ class TestShortenedLink:
         assert sample_link.short_link in repr_str
 
     def test_unique_short_link_constraint(self, db):
+        """Test that short_link column enforces uniqueness constraint.
+        
+        Attempts to create two links with the same short code and
+        verifies that a database integrity error is raised.
+        """
         link1 = ShortenedLink(
             original_link='https://example1.com',
             short_link='unique12'

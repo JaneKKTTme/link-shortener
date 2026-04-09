@@ -1,3 +1,5 @@
+"""Core application logic for URL shortening service."""
+
 from flask import Blueprint, render_template, request, redirect, Response
 from urllib.parse import urlparse
 from app.models import ShortenedLink
@@ -9,17 +11,45 @@ from typing import Tuple, Optional, Union, Literal
 
 
 MAX_NUMBER_OF_ATTEMPTS: int = 30
+"""Maximum number of attempts to generate a unique short link before failing."""
 
 
 bp: Blueprint = Blueprint("main", __name__)
+"""Flask blueprint for main application routes."""
 
 
 def hash_link(url: str) -> str:
+    """Generate an 8-character hash from a URL with random salt.
+    
+    Args:
+        url: Original URL to hash.
+        
+    Returns:
+        8-character hexadecimal hash string.
+        
+    Example:
+        >>> hash_link("https://example.com")
+        'a3f5e8d2'
+    """
     salt: str = ''.join(random.choices(string.ascii_letters + string.digits, k=4))
     return hashlib.md5((url + salt).encode()).hexdigest()[:8]
 
 
 def is_valid_link(url: str) -> Union[str, bool]:
+    """Validate URL format and length.
+    
+    Args:
+        url: URL to validate. Can be None or empty string.
+        
+    Returns:
+        True if URL is valid, error message string otherwise.
+        
+    Example:
+        >>> is_valid_link("https://example.com")
+        True
+        >>> is_valid_link("invalid")
+        'Некорректный URL :('
+    """
     if not url:
         return 'Пожалуйста, введите URL!'
     if len(str(url)) > 2000:
@@ -37,6 +67,20 @@ def is_valid_link(url: str) -> Union[str, bool]:
 def check_link_existence(url: str,
         field: Literal['original_link', 'short_link']
         ) -> Optional[ShortenedLink]:
+    """Check if a link exists in the database by specified field.
+    
+    Args:
+        url: Value to search for (original URL or short code).
+        field: Database field to search in ('original_link' or 'short_link').
+        
+    Returns:
+        ShortenedLink object if found, None otherwise.
+        
+    Example:
+        >>> link = check_link_existence("abc123", "short_link")
+        >>> if link:
+        ...  print(link.original_link)
+    """
     try:
         if field == 'original_link':
             result: Optional[ShortenedLink] = ShortenedLink.query.filter_by(original_link=url).first()
@@ -48,6 +92,18 @@ def check_link_existence(url: str,
 
 
 def increase_number_of_redirections(short_link: str) -> bool:
+    """Increment the redirection counter for a short link.
+    
+    Args:
+        short_link: Short link code to update.
+        
+    Returns:
+        True if counter was incremented successfully, False otherwise.
+        
+    Example:
+        >>> increase_number_of_redirections("abc123")
+        True
+    """
     shortened_link: Optional[ShortenedLink] = check_link_existence(short_link, 'short_link')
     if not shortened_link:
         return False
@@ -62,6 +118,18 @@ def increase_number_of_redirections(short_link: str) -> bool:
 
 
 def link_shorter_page() -> Union[str, Tuple[str, int]]:
+    """Handle main page GET and POST requests for URL shortening.
+    
+    GET: Render the link shortening form.
+    POST: Process URL, generate short link, and return result.
+    
+    Returns:
+        Rendered template HTML string or tuple with status code.
+        
+    Example:
+        >>> # POST request with valid URL
+        >>> response = link_shorter_page()  # Returns rendered template with short link
+    """
     if request.method == 'POST':
         url: Optional[ShortenedLink] = request.form.get('original_link', '').strip()
 
@@ -108,6 +176,21 @@ def link_shorter_page() -> Union[str, Tuple[str, int]]:
 
 
 def redirect_to_original_link(short_link: str) -> Union[Response, Tuple[str, int]]:
+    """Redirect short link to original URL and increment visit counter.
+    
+    Args:
+        short_link: Short link code to look up and redirect.
+        
+    Returns:
+        Redirect response to original URL, 404 page if not found,
+        or 500 error response on exception.
+        
+    Example:
+        >>> # GET request to /abc123
+        >>> response = redirect_to_original_link("abc123")
+        >>> response.status_code
+        302
+    """
     try:
         result: Optional[ShortenedLink] = check_link_existence(short_link, 'short_link')
         if result:

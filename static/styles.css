@@ -1,3 +1,19 @@
+/**
+ * URL Shortener Application Styles
+ * 
+ * A modern, responsive design with gradient backgrounds,
+ * smooth animations, and mobile-friendly layout.
+ * 
+ * Color Scheme:
+ * - Primary gradient: #667eea to #764ba2
+ * - Accent color: #F9A826
+ * - Error color: #e933cf
+ * 
+ * @version 1.0
+ * @requires Font Awesome 6.4.0
+ * @requires Google Fonts - Nunito
+ */
+
 * {
     box-sizing: border-box;
     margin: 0;

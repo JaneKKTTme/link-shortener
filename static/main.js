@@ -19,14 +19,22 @@
  * <button onclick="copyToClipboard()">Copy</button>
  */
 function copyToClipboard() {
+    // Get the short link text element
     const shortLink = document.getElementById('short-link');
+
+     // Create temporary textarea for copy operation
     const textArea = document.createElement('textarea');
     textArea.value = shortLink.textContent;
     document.body.appendChild(textArea);
+
+    // Select and copy the text
     textArea.select();
-    document.execCommand('copy');
+    document.execCommand('copy'); // Note: Modern alternative is navigator.clipboard.writeText()
+    
+    // Clean up temporary element
     document.body.removeChild(textArea);
             
+    // Show success message for 2 seconds
     const message = document.getElementById('copy-message');
     message.style.display = 'block';
     setTimeout(() => {
@@ -46,9 +54,11 @@ function copyToClipboard() {
 document.addEventListener('DOMContentLoaded', function() {
     const container = document.querySelector('.container');
         if (container) {
+            // Set initial invisible state
             container.style.opacity = '0';
             container.style.transform = 'translateY(20px)';
                 
+            // Apply transition and animate after DOM renders
             setTimeout(() => {
                 container.style.transition = 'all 0.6s ease';
                 container.style.opacity = '1';

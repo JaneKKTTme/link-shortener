@@ -257,13 +257,14 @@ class TestCollisionHandling:
 
         Simulates two collisions followed by success on third attempt.
         """
+        # First two attempts return same hash, third returns different
         mock_hash.side_effect = ['hash1', 'hash1', 'hash2']
 
         def check_side_effect(link, field):
             # Simulate collision for hash1 only
             if field == 'short_link' and link in ['hash1']:
-                return MagicMock() 
-            return None
+                return MagicMock()  # Existing link found
+            return None  # No collision for hash2
         
         mock_check.side_effect = check_side_effect
         
@@ -271,6 +272,7 @@ class TestCollisionHandling:
             'original_link': 'https://collision.com'
         }, follow_redirects=True)
         
+        # Should succeed despite collisions
         assert response.status_code == 200
         assert 'hash2' in response.data.decode('utf-8') or response.status_code == 200
 

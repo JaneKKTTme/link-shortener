@@ -18,6 +18,7 @@ class TestIntegration:
         """
         original_url = 'https://integration-test.com/some/very/long/path'
         
+        # Create short link
         response = client.post('/', data={
             'original_link': original_url
         }, follow_redirects=True)
@@ -30,6 +31,7 @@ class TestIntegration:
         assert link is not None
         short_code = link.short_link
         
+        # First redirect
         redirect_response = client.get(f'/{short_code}', follow_redirects=False)
         assert redirect_response.status_code == 302
         assert redirect_response.location == original_url
@@ -37,6 +39,7 @@ class TestIntegration:
         db.session.refresh(link)
         assert link.number_of_redirections == 1
         
+        # Second redirect
         client.get(f'/{short_code}')
         db.session.refresh(link)
         assert link.number_of_redirections == 2

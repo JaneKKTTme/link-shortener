@@ -37,6 +37,7 @@
             <p class="subtitle">Превратите длинные ссылки в короткие и удобные!</p>
         </section>
 
+        <!-- Form for URL submission - submits to same page via POST -->
         <form action="" method="post">
             <section id="input">
                 <div class="input-group">
@@ -45,6 +46,7 @@
                         Длинная ссылка
                     </label>
                     <div class="input-wrapper">
+                        <!-- Preserve original_link value if validation fails -->
                         <input type="text" name="original_link" id="url" required 
                                placeholder="Вставьте вашу ссылку здесь..."
                                value="{{ original_link or '' }}">
@@ -59,6 +61,7 @@
             </section>
         </form>
 
+        <!-- Success section - only shown when output is available -->
         {% if output %}
         <section id="output">
             <div class="output-group">
@@ -77,6 +80,7 @@
         </section>
         {% endif %}
 
+        <!-- Error message section - only shown when error exists -->
         {% if error %}
         <div class="error-message">
             <i class="fas fa-exclamation-triangle"></i>

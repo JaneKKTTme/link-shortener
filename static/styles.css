@@ -14,6 +14,10 @@
  * @requires Google Fonts - Nunito
  */
 
+/* ============================================
+   RESET & GLOBAL STYLES
+   ============================================ */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -21,17 +25,23 @@
 }
 
 :root {
+    /* Color System */
     --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --accent-color: #F9A826;
     --accent-dark: #E89510;
     --error: #e933cf;
+
+    /* Text Colors */
     --text-light: #ffffff;
     --text-dark: #333333;
+
+    /* Effects */
     --text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     --shadow: 0 8px 25px rgba(0,0,0,0.1);
     --shadow-hover: 0 12px 35px rgba(0,0,0,0.15);
 }
 
+/* Ensure gradient covers full viewport height */
 html {
 	min-height: 100vh;
     font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
@@ -39,6 +49,7 @@ html {
     color: var(--text-light);
 }
 
+/* Flex centering for vertical alignment */
 body {
     display: flex;
     justify-content: center;
@@ -47,23 +58,34 @@ body {
     padding: 20px;
     margin: 0;
     background: var(--primary-gradient);
-    background-attachment: fixed;
+    background-attachment: fixed;  /* Prevents gradient from scrolling on mobile */
 }
+
+/* ============================================
+   MAIN CONTAINER
+   ============================================ */
 
 .container {
     width: 100%;
     max-width: 600px;
     text-align: center;
+    /* Animation properties - controlled by JS */
     opacity: 1;
     transform: translateY(0);
     transition: all 0.6s ease;
 }
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
 
 .header {
     margin-bottom: 3rem;
     animation: fadeInDown 0.8s ease;
 }
 
+
+/* Accent color for icons in header */
 .label-text {
     font-size: 3rem;
     font-weight: 800;
@@ -87,6 +109,10 @@ body {
     animation: fadeIn 1s ease 0.3s both;
 }
 
+/* ============================================
+   FORM & INPUT SECTION
+   ============================================ */
+
 #original_link {
     flex-direction: column;
     margin-bottom: 2.5rem;
@@ -98,6 +124,7 @@ body {
     margin-bottom: 2rem;
 }
 
+/* Form labels with icons */
 label {
     font-weight: 600;
     margin-bottom: 15px;
@@ -112,12 +139,14 @@ label i {
     color: var(--accent-color);
 }
 
+/* Wrapper for relative positioning of focus line */
 .input-wrapper {
     position: relative;
     width: 100%;
     margin: 20px 0;
 }
 
+/* Main URL input field */
 input[type="text"] {
     width: 100%;
     padding: 20px 25px;
@@ -143,6 +172,7 @@ input[type="text"]::placeholder {
     color: #999;
 }
 
+/* Animated focus line effect */
 .input-focus-line {
     position: absolute;
     bottom: -5px;
@@ -156,9 +186,14 @@ input[type="text"]::placeholder {
     z-index: 2;
 }
 
+/* Expand focus line on input focus */
 input[type="text"]:focus + .input-focus-line {
     width: 90%;
 }
+
+/* ============================================
+   SUBMIT BUTTON
+   ============================================ */
 
 .submit-btn {
     background: var(--accent-color);
@@ -170,22 +205,25 @@ input[type="text"]:focus + .input-focus-line {
     font-size: 1.3rem;
     font-weight: bold;
     font-family: 'Nunito', sans-serif;
+    /* 3D button effect with shadow */
     box-shadow: 0 6px 0 var(--accent-dark);
     transition: all 0.2s ease;
     position: relative;
-    overflow: hidden;
+    overflow: hidden;  /* For shine animation */
     display: inline-flex;
     align-items: center;
     gap: 12px;
     margin-top: 10px;
 }
 
+/* Press down effect on hover */
 .submit-btn:hover {
     transform: translateY(3px);
     box-shadow: 0 3px 0 var(--accent-dark);
     background: #ffb347;
 }
 
+/* Active click effect */
 .submit-btn:active {
     transform: translateY(6px);
     box-shadow: 0 0 0 var(--accent-dark);
@@ -195,6 +233,7 @@ input[type="text"]:focus + .input-focus-line {
     font-size: 1.2rem;
 }
 
+/* Shine animation overlay */
 .btn-shine {
     position: absolute;
     top: 0;
@@ -205,9 +244,28 @@ input[type="text"]:focus + .input-focus-line {
     transition: left 0.8s ease;
 }
 
+/* Slide shine across button on hover */
 .submit-btn:hover .btn-shine {
     left: 100%;
 }
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+
+.submit-btn.loading {
+    pointer-events: none;  /* Prevent multiple submissions */
+    opacity: 0.8;
+}
+
+/* Spinning animation for loading icon */
+.submit-btn.loading i {
+    animation: spin 1s linear infinite;
+}
+
+/* ============================================
+   OUTPUT SECTION (SHORT LINK DISPLAY)
+   ============================================ */
 
 #output {
     flex-direction: column;
@@ -220,6 +278,7 @@ input[type="text"]:focus + .input-focus-line {
     width: 100%;
 }
 
+/* Container for short link and copy button */
 .output-wrapper {
     position: relative;
     display: flex;
@@ -242,7 +301,7 @@ input[type="text"]:focus + .input-focus-line {
     padding: 15px 25px;
     color: var(--text-dark);
     font-weight: 600;
-    word-break: break-all;
+    word-break: break-all;  /* Handle long URLs on mobile */
     text-align: left;
     margin: 0;
 }
@@ -260,7 +319,7 @@ input[type="text"]:focus + .input-focus-line {
     justify-content: center;
     font-size: 1.2rem;
     transition: all 0.3s ease;
-    flex-shrink: 0;
+    flex-shrink: 0;  /* Prevent button from shrinking */
 }
 
 .copy-btn:hover {
@@ -279,6 +338,10 @@ input[type="text"]:focus + .input-focus-line {
     animation: fadeIn 0.3s ease;
 }
 
+/* ============================================
+   ERROR MESSAGES
+   ============================================ */
+
 .error-message {
     background: linear-gradient(var(--error), transparent);
     border: 3px solid var(--error);
@@ -291,8 +354,12 @@ input[type="text"]:focus + .input-focus-line {
     text-align: center;
     justify-content: center;
     gap: 10px;
-    animation: shake 0.5s ease;
+    animation: shake 0.5s ease;  /* Attention-grabbing shake */
 }
+
+/* ============================================
+   FOOTER
+   ============================================ */
 
 footer {
     display: block;
@@ -305,6 +372,10 @@ footer.production {
     opacity: 0.8;
     animation: fadeIn 1s ease 0.6s both;
 }
+
+/* ============================================
+   404 ERROR PAGE SPECIFIC STYLES
+   ============================================ */
 
 .error-404-icon {
     font-size: 6rem;
@@ -319,6 +390,7 @@ footer.production {
     text-shadow: var(--text-shadow);
     line-height: 1;
     margin: 1rem 0;
+    /* Gradient text effect */
     background: linear-gradient(135deg, #fff, var(--accent-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -337,6 +409,7 @@ footer.production {
     margin-bottom: 2rem;
 }
 
+/* Navigation link back to home */
 .home-link {
     display: inline-flex;
     align-items: center;
@@ -365,12 +438,17 @@ footer.production {
 }
         
 .home-link:hover i {
-    transform: translateX(-5px);
+    transform: translateX(-5px);  /* Slide icon left on hover */
 }
-        
+       
+/* Container for error page content */ 
 .error-content {
     animation: fadeInUp 0.6s ease;
 }
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
 
 @keyframes fadeInDown {
     from {
@@ -410,6 +488,11 @@ footer.production {
     75% { transform: translateX(5px); }
 }
 
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet and mobile devices */
 @media (max-width: 768px) {
     .container {
         padding: 0 15px;
@@ -417,7 +500,7 @@ footer.production {
     
     .label-text {
         font-size: 2.2rem;
-        flex-direction: column;
+        flex-direction: column;  /* Stack icon and text on mobile */
         gap: 10px;
     }
     
@@ -430,6 +513,7 @@ footer.production {
         padding: 0 10px;
     }
 
+    /* Adjust focus line position for mobile */
     .input-focus-line {
         bottom: -3px;
     }
@@ -455,6 +539,7 @@ footer.production {
         font-size: 0.9rem;
     }
     
+    /* Stack short link and copy button vertically on mobile */
     .output-wrapper {
         flex-direction: column;
         border-radius: 25px;
@@ -469,6 +554,7 @@ footer.production {
     }
 }
 
+/* Small mobile devices */
 @media (max-width: 480px) {
     .label-text {
         font-size: 1.8rem;
@@ -490,13 +576,4 @@ footer.production {
     label {
         font-size: 1.1rem;
     }
-}
-
-.submit-btn.loading {
-    pointer-events: none;
-    opacity: 0.8;
-}
-
-.submit-btn.loading i {
-    animation: spin 1s linear infinite;
 }

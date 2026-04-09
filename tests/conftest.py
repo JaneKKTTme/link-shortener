@@ -5,6 +5,7 @@ import os
 import tempfile
 import sys
 
+# Add project root to Python path for imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app import create_app, db as _db
@@ -30,21 +31,25 @@ def app():
 
 	app = create_app()
 
+	# Override configuration for testing
 	app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}?check_same_thread=False'
-	app.config['TESTING'] = True
+	app.config['TESTING'] = True  # Disables error catching during testing
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-	app.config['WTF_CSRF_ENABLED'] = False
-	app.config['SERVER_NAME'] = 'localhost.localdomain'
+	app.config['WTF_CSRF_ENABLED'] = False  # Disable CSRF for testing forms
+	app.config['SERVER_NAME'] = 'localhost.localdomain'  # Required for url_for
 
+	# Initialize database schema
 	with app.app_context():
 		_db.create_all()
 
+		# Enable WAL mode for better concurrent test performance
 		from sqlalchemy import text
 		_db.session.execute(text("PRAGMA journal_mode=WAL"))
 		_db.session.commit()
 
 	yield app
 
+	# Cleanup: drop tables and remove temporary database file
 	with app.app_context():
 		_db.drop_all()
 
